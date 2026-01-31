@@ -32,11 +32,16 @@ print("Latest url:", latest.get("url"))
 
 
 
-# 4. Download it
+# 4. Download it (streaming)
 url = latest["url"]
 filename = OUT / "latest_prescribing_file"
 
-response = requests.get(url)
-filename.write_bytes(response.content)
+with requests.get(url, stream=True) as r:
+    r.raise_for_status()
+    with open(filename, "wb") as f:
+        for chunk in r.iter_content(chunk_size=1024 * 1024):
+            if chunk:
+                f.write(chunk)
 
 print("Saved to", filename)
+
