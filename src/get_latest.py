@@ -23,8 +23,7 @@ pkg = requests.get(
 resources = pkg["result"]["resources"]
 
 # 3. Pick the newest file
-resources.sort(key=lambda r: r.get("last_modified", ""), reverse=True)
-latest = resources[0]
+resources.sort(key=lambda r: (r.get("last_modified") or r.get("created") or ""), reverse=True)
 
 print("Latest file:", latest["name"])
 
