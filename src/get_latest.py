@@ -24,9 +24,12 @@ resources = pkg["result"]["resources"]
 
 # 3. Pick the newest file
 resources = [r for r in resources if r.get("url")]
+print("How many downloadable resources:", len(resources))
 resources.sort(key=lambda r: r.get("last_modified") or r.get("created") or "", reverse=True)
 latest = resources[0]
-print("Latest file:", latest["name"])
+print("Latest file:", latest.get("name"))
+print("Latest url:", latest.get("url"))
+
 
 
 # 4. Download it
